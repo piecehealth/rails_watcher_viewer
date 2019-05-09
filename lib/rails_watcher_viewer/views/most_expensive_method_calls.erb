@@ -1,0 +1,53 @@
+<%
+  call_table = {}
+
+  @method_call_table.each do |_, method_call|
+    method_tag = method_call["tag"]
+    call_table[method_tag] = [0, 0, 0] unless call_table[method_tag] # [duration, realDuration, count]
+    duration = method_call["duration"]
+    call_table[method_tag][0] += duration
+
+    method_call["children"].each do |child|
+      duration -= @method_call_table[child]["duration"]
+    end
+
+    call_table[method_tag][1] += duration
+    call_table[method_tag][2] += 1
+  end
+
+  most_expensive_method_calls = call_table.keys.sort_by { |ele| -call_table[ele][1] }
+%>
+
+<h2 class="subtitle">
+  Expensive methods
+</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Method Name</th>
+      <th>How Many Times</th>
+      <th>Net Cost (ms)</th>
+      <th>Total Cost (ms)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% most_expensive_method_calls[0, 20].each do |method_call_tag| %>
+      <tr>
+        <td>
+          <%
+            tag_name =  if method_call_tag.size > 70
+                          method_call_tag[0, 70] + "..."
+                        else
+                          method_call_tag
+                        end
+          %>
+          <%= tag_name %>
+        </td>
+        <td><%= call_table[method_call_tag][2] %></td>
+        <td><%= call_table[method_call_tag][1].round 4 %></td>
+        <td><%= call_table[method_call_tag][0].round 4 %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

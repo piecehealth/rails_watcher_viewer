@@ -1,0 +1,56 @@
+<table class="table">
+  <%
+    captured_duration = @stack.reduce(0) do |sum, stack|
+      sum + @method_call_table[stack]["duration"]
+    end
+
+    db_time = @db_query_table.values.reduce(0) do |sum, arr|
+      sum + arr.reduce(0) do |sum2, query|
+              sum2 + query["duration"]
+            end
+    end
+
+    render_methods = @method_call_table.values.select { |method| method["tag"] == "render" }
+
+    render_duration = render_methods.reduce(0) do |sum, render_method|
+      sum + render_method["duration"]
+    end
+  %>
+  <tbody>
+    <tr>
+      <th>Request Path</th><td><%= @summary["request_path"] %></td>
+    </tr>
+    <tr>
+      <th>Total Duration (ms)</th>
+      <td>
+        <div class="grad" style="width: <%= (@summary["duration"].to_f / 10).round %>px;">
+          <%= @summary["duration"].to_f.round 4 %>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th>Captured Duration (ms)</th>
+      <td>
+        <div class="grad" style="width: <%= (captured_duration / 10).round %>px;">
+          <%= captured_duration.round 4 %>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th>Database (ms)</th>
+      <td>
+        <div class="grad" style="width: <%= (db_time / 10).round %>px;">
+          <%= db_time.round 4 %>
+        </div>
+      </td>
+    </tr>
+      <tr>
+      <th>Render (ms)</th>
+      <td>
+        <div class="grad" style="width: <%= (render_duration / 10).round %>px;">
+          <%= render_duration.round 4 %>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

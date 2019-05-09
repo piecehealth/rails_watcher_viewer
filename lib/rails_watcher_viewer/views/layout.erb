@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rails Watcher</title>
+    <link rel="stylesheet" href="/bulma.css">
+    <script src="/react.development.js"></script>
+    <script src="/react-dom.development.js"></script>
+    <script src="/call-stack.js"></script>
+    <style>
+      .grad {
+        background: -webkit-linear-gradient(left, rgb(247, 172, 0), rgb(255, 255, 255));
+        background: -o-linear-gradient(left, rgb(247, 172, 0), rgb(255, 255, 255));
+        background: -moz-linear-gradient(left, rgb(247, 172, 0), rgb(255, 255, 255));
+        background: linear-gradient(left, rgb(247, 172, 0), rgb(255, 255, 255));
+      }
+
+      .call-stack {
+        display: inline-block;
+        padding: 5px 5px 5px 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="title">
+        Rails Watcher
+      </h1>
+      <p class="subtitle">
+        <a href="https://github.com/piecehealth/rails_watcher">https://github.com/piecehealth/rails_watcher</a>
+      </p>
+    </div>
+    <div class="container">
+      <%= yield %>
+    </div>
+  </body>
+</html>

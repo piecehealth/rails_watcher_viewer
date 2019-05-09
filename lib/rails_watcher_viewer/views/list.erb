@@ -1,0 +1,25 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Request At</th>
+      <th>Request Path</th>
+      <th>Duration</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @list.each do |l| %>
+      <tr>
+        <td><%= l[0] %></td>
+        <td><%= l[1] %></td>
+        <% duration = l[2] %>
+        <td>
+          <div class="grad" style="width: <%= (duration / 10).round %>px;">
+            <%= duration.round(2) %> ms
+          </div>
+        </td>
+        <td><a href="/show/<%= l[3] %>">Detail</a></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,9 @@
+<h2 class="subtitle">
+  Call Stack
+</h2>
+<div id="call-stack"></div>
+<script>
+  var callStackContainer = document.querySelector('#call-stack');
+  window.methodCallTable = <%= @method_call_table_json %>;
+  ReactDOM.render(React.createElement(CallStacks, {"stack": <%= @stack %>}), callStackContainer);
+</script>
